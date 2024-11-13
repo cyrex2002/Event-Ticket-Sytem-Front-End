@@ -4,9 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-
-  private readonly hardcodedUsername = 'test';
-  private readonly hardcodedPassword = '1234';
+  private hardcodedUsername = 'user';
+  private hardcodedPassword = 'password';
 
   constructor() { }
 
