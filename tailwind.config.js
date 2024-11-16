@@ -3,7 +3,11 @@ module.exports = {
     "./src/**/*.{html,ts}", // This pattern includes all HTML and TypeScript files in your src folder
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'login-image': "url('./assests/login.jpeg')",
+      }
+    },
   },
   plugins: [],
 };
