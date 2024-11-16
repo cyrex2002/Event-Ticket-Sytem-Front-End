@@ -24,8 +24,7 @@ export class EventCardComponent implements OnInit {
   }
 
   toggleEvent(event: any) {
-    event.isActive = !event.isActive; // Toggle the isActive state
-    // Optionally, you can make an HTTP request here to update the event state on the server
+    event.isActive = !event.isActive;
   }
 
 }
