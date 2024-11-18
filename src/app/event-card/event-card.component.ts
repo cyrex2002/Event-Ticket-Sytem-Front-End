@@ -18,8 +18,13 @@ export class EventCardComponent implements OnInit {
   }
 
   fetchEvents() {
-    this.http.get('http://localhost:8080/events/all').subscribe((data: any) => {
-      this.events = data;
+    this.http.get<any[]>('http://localhost:8080/events/all').subscribe({
+      next: (data) => {
+        this.events = data;
+      },
+      error: (error) => {
+        console.error('Error fetching events:', error);
+      }
     });
   }
 
@@ -28,7 +33,6 @@ export class EventCardComponent implements OnInit {
 
     const vendorPayload = this.createVendorPayload(event);
 
-    // Call the respective API based on the new state
     if (event.isActive) {
       this.startSelling(vendorPayload);
     } else {
@@ -51,26 +55,25 @@ export class EventCardComponent implements OnInit {
   }
 
   startSelling(vendorPayload: any) {
-    console.log('Payload for starting selling:', vendorPayload); // Log the payload
-    this.http.post('http://localhost:8080/api/vendors/start-selling', vendorPayload).subscribe(
-      (response) => {
+    this.http.post('http://localhost:8080/api/vendors/start-selling', vendorPayload).subscribe({
+      next: (response) => {
         console.log('Started selling:', response);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error starting ticket selling:', error);
       }
-    );
+    });
   }
 
   stopSelling(vendorPayload: any) {
     // Dummy API call for stopping ticket selling
-    this.http.post('http://localhost:8080/api/vendors/stop-selling', vendorPayload).subscribe(
-      (response) => {
+    this.http.post('http://localhost:8080/api/vendors/stop-selling', vendorPayload).subscribe({
+      next: (response) => {
         console.log('Stopped selling:', response);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error stopping ticket selling:', error);
       }
-    );
+    });
   }
 }
