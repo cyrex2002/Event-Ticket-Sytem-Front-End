@@ -4,7 +4,7 @@
     <p class="text-gray-700">Price: ${{ event.eventPrice }}</p>
     <p class="text-gray-700">Tickets Available: {{ event.ticketsToSell - event.soldTickets }}</p>
     <p class="text-gray-500">Sold Tickets: {{ event.soldTickets }}</p>
-    <p class="text-gray-500">Vendor ID: {{ event.createdVendor }}</p>
+    <p class="text-gray-500">Vendor ID: {{ event.createdVendor.userId }}</p>
     <button (click)="toggleEvent(event)"
             class="mt-4 px-4 py-2"
             [ngClass]="event.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'">
