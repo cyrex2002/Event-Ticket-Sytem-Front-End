@@ -43,6 +43,7 @@ export class EventCardComponent implements OnInit {
   createVendorPayload(event: any) {
     return {
       event: {
+        createdVendor: event.createdVendor,
         eventId: event.eventId,
         eventName: event.eventName,
         eventPrice: event.eventPrice,
