@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
-  selector: 'app-event-card',
-  templateUrl: './event-card.component.html',
-  standalone: true,
-  imports: [CommonModule, HttpClientModule],
+    selector: 'app-event-card',
+    templateUrl: './event-card.component.html',
+    imports: [CommonModule, HttpClientModule]
 })
 export class EventCardComponent implements OnInit {
   events: any[] = [];

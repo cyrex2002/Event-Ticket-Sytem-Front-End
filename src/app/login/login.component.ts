@@ -6,11 +6,10 @@ import { Router } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  imports: [FormsModule, CommonModule,ToastrModule]
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    imports: [FormsModule, CommonModule, ToastrModule]
 })
 export class LoginComponent {
   username: string = '';

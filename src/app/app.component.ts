@@ -4,11 +4,10 @@ import { HomeComponent } from './home/home.component';
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [HomeComponent, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    imports: [RouterOutlet],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'CW-Front-End';

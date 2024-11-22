@@ -3,11 +3,10 @@ import {CommonModule} from '@angular/common';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 @Component({
-  selector: 'app-system-config-card',
-  standalone: true,
-  imports: [CommonModule,HttpClientModule],
-  templateUrl: './system-config-card.component.html',
-  styleUrl: './system-config-card.component.css'
+    selector: 'app-system-config-card',
+    imports: [CommonModule, HttpClientModule],
+    templateUrl: './system-config-card.component.html',
+    styleUrl: './system-config-card.component.css'
 })
 export class SystemConfigCardComponent implements OnInit {
 
