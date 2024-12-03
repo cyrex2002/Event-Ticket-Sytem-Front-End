@@ -35,7 +35,7 @@ export class EventCardComponent implements OnInit {
     if (event.isActive) {
       this.startSelling(vendorPayload);
     } else {
-      this.stopSelling(vendorPayload);
+      this.stopSelling(event);
     }
   }
 
@@ -65,9 +65,9 @@ export class EventCardComponent implements OnInit {
     });
   }
 
-  stopSelling(vendorPayload: any) {
+  stopSelling(event: any) {
     // Dummy API call for stopping ticket selling
-    this.http.post('http://localhost:8080/api/vendors/stop-selling', vendorPayload).subscribe({
+    this.http.post('http://localhost:8080/api/vendors/stop-selling', event).subscribe({
       next: (response) => {
         console.log('Stopped selling:', response);
       },
