@@ -46,7 +46,7 @@ export class EventCardComponent implements OnInit {
         eventId: event.eventId,
         eventName: event.eventName,
         eventPrice: event.eventPrice,
-        ticketsToSell: event.ticketsToSell,
+        ticketsToRelease: event.ticketsToRelease,
       },
       userId: event.createdVendor.userId,
       ticketsPerRelease: event.createdVendor.ticketsPerRelease,

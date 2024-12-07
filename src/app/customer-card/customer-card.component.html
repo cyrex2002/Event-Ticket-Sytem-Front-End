@@ -1,1 +1,27 @@
-<p>customer-card works!</p>
+<div class="flex flex-row gap-4 flex-wrap">
+  <div *ngFor="let customer of customers" class="bg-gray-300 p-6 rounded-lg shadow-md w-48 md:w-56 lg:w-64">
+    <h2 class="text-xl font-bold">Vendor ID: {{ customer.userId}}</h2>
+    <p class="text-gray-700">Tickets to Buy: {{ customer.numberOfTickets }}</p>
+
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="eventSelect">
+      Select Event
+    </label>
+
+    <select
+      id="eventSelect"
+      [(ngModel)]="customer.selectedEvent"
+      class="block w-full mt-2 p-2 border border-gray-300 rounded"
+    >
+      <option *ngFor="let event of events" [value]="event.eventName">
+        {{ event.eventName }}
+      </option>
+    </select>
+    <button class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Start Buying</button>
+
+  </div>
+
+  <div class="bg-gray-300 p-6 rounded-lg shadow-md w-48 md:w-56 lg:w-64 flex flex-col justify-center items-center">
+    <button class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Add A Customer</button>
+  </div>
+
+</div>
