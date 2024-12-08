@@ -9,14 +9,14 @@
 
     <select
       id="eventSelect"
-      [(ngModel)]="customer.selectedEvent"
+      [(ngModel)]="customer.selectedEventId"
       class="block w-full mt-2 p-2 border border-gray-300 rounded"
     >
-      <option *ngFor="let event of events" [value]="event.eventName">
+      <option *ngFor="let event of events" [value]="event.eventId">
         {{ event.eventName }}
       </option>
     </select>
-    <button class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Start Buying</button>
+    <button (click)="startBuying(customer)" class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Start Buying</button>
 
   </div>
 

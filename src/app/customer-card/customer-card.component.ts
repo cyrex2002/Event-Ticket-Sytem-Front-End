@@ -40,4 +40,47 @@ export class CustomerCardComponent implements OnInit{
     });
   }
 
+  startBuying(customer: any) {
+    console.log('Selected Event ID:', customer.selectedEventId);
+    console.log('Available Events:', this.events);
+
+    if (customer.selectedEventId) {
+      const selectedEvent = this.events.find(
+        (event) => event.eventId === Number(customer.selectedEventId)
+      );
+
+
+      if (!selectedEvent) {
+        alert('Selected event details not found.');
+        return;
+      }
+
+      // Construct the object
+      const purchaseRequest = {
+        event: {
+          eventId: selectedEvent.eventId,
+          eventName: selectedEvent.eventName,
+          eventPrice: selectedEvent.eventPrice,
+          ticketsToRelease: selectedEvent.ticketsToRelease,
+          releasedTickets: selectedEvent.releasedTickets,
+          soldTickets: selectedEvent.soldTickets,
+        },
+        numberOfTickets: customer.numberOfTickets,
+        userId: customer.userId,
+      };
+
+      console.log('Purchase Request:', purchaseRequest);
+
+      // Send the object to the backend
+      this.http.post('http://localhost:8080/purchase', purchaseRequest).subscribe({
+        next: (response) => {
+          console.log('Purchase response:', response);
+          alert('Tickets purchased successfully!');
+        },
+        error: (error) => {
+          console.error('Error purchasing tickets:', error);
+        }
+      });
+    }
+  }
 }
