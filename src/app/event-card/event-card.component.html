@@ -1,20 +1,129 @@
-<div class="flex flex-row gap-4 flex-wrap">
-  <div *ngFor="let event of events" class="bg-gray-300 p-6 rounded-lg shadow-md w-48 md:w-56 lg:w-64">
-    <h2 class="text-xl font-bold">{{ event.eventName }}</h2>
-    <p class="text-gray-700">Price: ${{ event.eventPrice }}</p>
-    <p class="text-gray-700">Tickets To Release: {{ event.ticketsToRelease }}</p>
-    <p class="text-gray-700">Released Tickets: {{ event.releasedTickets }}</p>
-    <p class="text-gray-500">Sold Tickets: {{ event.soldTickets }}</p>
-    <p class="text-gray-500">Vendor ID: {{ event.createdVendor.userId }}</p>
-    <button (click)="toggleEvent(event) "
-            class="mt-4 px-4 py-2 text-white font-bold rounded"
-            [ngClass]="event.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'">
-      {{ event.isActive ? 'Stop' : 'Start' }}
-    </button>
-  </div>
-  <div class="bg-gray-300 p-6 rounded-lg shadow-md w-48 md:w-56 lg:w-64 flex flex-col justify-center items-center">
-    <button class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">
+<div class="container mx-auto p-6">
+  <!-- Add Event Button -->
+  <div class="flex justify-end mb-4">
+    <button
+      (click)="toggleAddEventForm()"
+      class="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
+    >
       Add An Event
     </button>
+  </div>
+
+  <!-- Events Table -->
+  <div class="overflow-y-auto" style="max-height: 400px;">
+    <table class="min-w-full bg-white border border-gray-300">
+      <thead>
+      <tr class="bg-gray-200 text-left">
+        <th class="py-3 px-4 border-b border-gray-300">Event Name</th>
+        <th class="py-3 px-4 border-b border-gray-300">Price</th>
+        <th class="py-3 px-4 border-b border-gray-300">Tickets To Release</th>
+        <th class="py-3 px-4 border-b border-gray-300">Released Tickets</th>
+        <th class="py-3 px-4 border-b border-gray-300">Sold Tickets</th>
+        <th class="py-3 px-4 border-b border-gray-300">Vendor ID</th>
+        <th class="py-3 px-4 border-b border-gray-300">Status</th>
+        <th class="py-3 px-4 border-b border-gray-300 text-center">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr
+        *ngFor="let event of events"
+        class="hover:bg-gray-100 transition-colors"
+      >
+        <td class="py-3 px-4 border-b border-gray-300">{{ event.eventName }}</td>
+        <td class="py-3 px-4 border-b border-gray-300">${{ event.eventPrice }}</td>
+        <td class="py-3 px-4 border-b border-gray-300">
+          {{ event.ticketsToRelease }}
+        </td>
+        <td class="py-3 px-4 border-b border-gray-300">
+          {{ event.releasedTickets }}
+        </td>
+        <td class="py-3 px-4 border-b border-gray-300">{{ event.soldTickets }}</td>
+        <td class="py-3 px-4 border-b border-gray-300">
+          {{ event.createdVendor.userId }}
+        </td>
+        <td class="py-3 px-4 border-b border-gray-300">
+          {{ event.isActive ? 'Active' : 'Inactive' }}
+        </td>
+        <td class="py-3 px-4 border-b border-gray-300 text-center">
+          <button
+            (click)="toggleEvent(event)"
+            class="px-3 py-1 text-white font-bold rounded"
+            [ngClass]="event.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'"
+          >
+            {{ event.isActive ? 'Stop' : 'Start' }}
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal for Adding Event -->
+<div
+  *ngIf="showAddEventForm"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+>
+  <div class="bg-white p-6 rounded-lg w-full max-w-md">
+    <h2 class="text-xl font-bold mb-4">Add New Event</h2>
+    <form (ngSubmit)="addEvent()">
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Event Name:</label>
+        <input
+          [(ngModel)]="newEvent.eventName"
+          name="eventName"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Event Price:</label>
+        <input
+          [(ngModel)]="newEvent.eventPrice"
+          name="eventPrice"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Tickets to Release:</label>
+        <input
+          [(ngModel)]="newEvent.ticketsToRelease"
+          name="ticketsToRelease"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Select Vendor:</label>
+        <select
+          [(ngModel)]="newEvent.selectedVendorId"
+          name="selectedVendorId"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        >
+          <option *ngFor="let vendor of vendors" [value]="vendor.userId">
+            {{ vendor.userId }}
+          </option>
+        </select>
+      </div>
+      <div class="flex justify-end">
+        <button
+          type="submit"
+          class="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-600"
+        >
+          OK
+        </button>
+        <button
+          (click)="cancelAddEventForm()"
+          type="button"
+          class="ml-2 px-4 py-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-600"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   </div>
 </div>

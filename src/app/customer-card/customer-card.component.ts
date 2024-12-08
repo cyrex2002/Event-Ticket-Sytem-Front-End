@@ -72,7 +72,7 @@ export class CustomerCardComponent implements OnInit{
       console.log('Purchase Request:', purchaseRequest);
 
       // Send the object to the backend
-      this.http.post('http://localhost:8080/purchase', purchaseRequest).subscribe({
+      this.http.post('http://localhost:8080/customers/StartBuying', purchaseRequest).subscribe({
         next: (response) => {
           console.log('Purchase response:', response);
           alert('Tickets purchased successfully!');
@@ -83,4 +83,31 @@ export class CustomerCardComponent implements OnInit{
       });
     }
   }
+
+  showAddCustomerForm = false;
+  newCustomer = {
+    userId: '',
+    numberOfTickets: null,
+    selectedEventId: null,
+  };
+
+  toggleAddCustomerForm() {
+    this.showAddCustomerForm = !this.showAddCustomerForm;
+  }
+
+  cancelAddCustomerForm() {
+    this.showAddCustomerForm = false;
+  }
+
+  addCustomer() {
+    if (this.newCustomer.userId && this.newCustomer.numberOfTickets && this.newCustomer.selectedEventId) {
+      // Add customer logic (API call or adding directly)
+      this.customers.push({ ...this.newCustomer });
+
+      // Reset form and close the modal
+      this.newCustomer = { userId: '', numberOfTickets: null, selectedEventId: null };
+      this.showAddCustomerForm = false;
+    }
+  }
+
 }

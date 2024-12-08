@@ -1,27 +1,106 @@
-<div class="flex flex-row gap-4 flex-wrap">
-  <div *ngFor="let customer of customers" class="bg-gray-300 p-6 rounded-lg shadow-md w-48 md:w-56 lg:w-64">
-    <h2 class="text-xl font-bold">Vendor ID: {{ customer.userId}}</h2>
-    <p class="text-gray-700">Tickets to Buy: {{ customer.numberOfTickets }}</p>
-
-    <label class="block text-gray-700 text-sm font-bold mb-2" for="eventSelect">
-      Select Event
-    </label>
-
-    <select
-      id="eventSelect"
-      [(ngModel)]="customer.selectedEventId"
-      class="block w-full mt-2 p-2 border border-gray-300 rounded"
+<div class="container mx-auto p-6">
+  <!-- Add Customer Button -->
+  <div class="flex justify-end mb-4">
+    <button
+      (click)="toggleAddCustomerForm()"
+      class="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
     >
-      <option *ngFor="let event of events" [value]="event.eventId">
-        {{ event.eventName }}
-      </option>
-    </select>
-    <button (click)="startBuying(customer)" class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Start Buying</button>
-
+      Add A Customer
+    </button>
   </div>
 
-  <div class="bg-gray-300 p-6 rounded-lg shadow-md w-48 md:w-56 lg:w-64 flex flex-col justify-center items-center">
-    <button class="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Add A Customer</button>
-  </div>
+  <!-- Customers Table -->
+  <table class="min-w-full bg-white border border-gray-300">
+    <thead>
+    <tr class="bg-gray-200 text-left">
+      <th class="py-3 px-4 border-b border-gray-300">Vendor ID</th>
+      <th class="py-3 px-4 border-b border-gray-300">Tickets to Buy</th>
+      <th class="py-3 px-4 border-b border-gray-300">Select Event</th>
+      <th class="py-3 px-4 border-b border-gray-300 text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let customer of customers" class="hover:bg-gray-100 transition-colors">
+      <td class="py-3 px-4 border-b border-gray-300">{{ customer.userId }}</td>
+      <td class="py-3 px-4 border-b border-gray-300">{{ customer.numberOfTickets }}</td>
+      <td class="py-3 px-4 border-b border-gray-300">
+        <select
+          [(ngModel)]="customer.selectedEventId"
+          class="w-full p-2 border border-gray-300 rounded"
+        >
+          <option *ngFor="let event of events" [value]="event.eventId">
+            {{ event.eventName }}
+          </option>
+        </select>
+      </td>
+      <td class="py-3 px-4 border-b border-gray-300 text-center">
+        <button
+          (click)="startBuying(customer)"
+          class="px-3 py-1 text-white font-bold rounded bg-blue-500 hover:bg-blue-600"
+        >
+          Start Buying
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
+<!-- Modal for Adding Customer -->
+<div
+  *ngIf="showAddCustomerForm"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+>
+  <div class="bg-white p-6 rounded-lg w-full max-w-md">
+    <h2 class="text-xl font-bold mb-4">Add New Customer</h2>
+    <form (ngSubmit)="addCustomer()">
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Vendor ID:</label>
+        <input
+          [(ngModel)]="newCustomer.userId"
+          name="userId"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Tickets to Buy:</label>
+        <input
+          [(ngModel)]="newCustomer.numberOfTickets"
+          name="numberOfTickets"
+          type="number"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 mb-2">Select Event:</label>
+        <select
+          [(ngModel)]="newCustomer.selectedEventId"
+          name="selectedEventId"
+          class="w-full p-2 border border-gray-300 rounded"
+          required
+        >
+          <option *ngFor="let event of events" [value]="event.eventId">
+            {{ event.eventName }}
+          </option>
+        </select>
+      </div>
+      <div class="flex justify-end">
+        <button
+          type="submit"
+          class="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-600"
+        >
+          OK
+        </button>
+        <button
+          (click)="cancelAddCustomerForm()"
+          type="button"
+          class="ml-2 px-4 py-2 bg-gray-500 text-white font-bold rounded hover:bg-gray-600"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

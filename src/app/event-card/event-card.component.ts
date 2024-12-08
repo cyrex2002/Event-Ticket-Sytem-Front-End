@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-event-card',
     templateUrl: './event-card.component.html',
-    imports: [CommonModule, HttpClientModule]
+  imports: [CommonModule, HttpClientModule, FormsModule]
 })
 export class EventCardComponent implements OnInit {
   events: any[] = [];
+  vendors: any[] = [];
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.fetchEvents();
+    this.fetchVendors();
   }
 
   fetchEvents() {
@@ -23,6 +26,17 @@ export class EventCardComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching events:', error);
+      }
+    });
+  }
+
+  fetchVendors () {
+    this.http.get<any[]>('http://localhost:8080/api/vendors/get-vendors').subscribe({
+      next: (data) => {
+        this.vendors = data;
+      },
+      error: (error) => {
+        console.error('Error fetching vendors:', error);
       }
     });
   }
@@ -75,5 +89,68 @@ export class EventCardComponent implements OnInit {
         console.error('Error stopping ticket selling:', error);
       }
     });
+  }
+  showAddEventForm = false;
+  newEvent = {
+    eventName: '',
+    eventPrice: null,
+    ticketsToRelease: null,
+    releasedTickets: 0,
+    soldTickets: 0,
+    createdVendor: { userId: 1 }, // Example vendor ID
+    isActive: false,
+    selectedVendorId: null,
+
+  };
+
+
+  toggleAddEventForm() {
+    this.showAddEventForm = !this.showAddEventForm;
+  }
+
+  cancelAddEventForm() {
+    this.showAddEventForm = false;
+  }
+
+  addEvent() {
+    if (
+      this.newEvent.eventName &&
+      this.newEvent.eventPrice &&
+      this.newEvent.ticketsToRelease
+    ) {
+      const eventPayload = {
+        eventId: 0,
+        eventName: this.newEvent.eventName,
+        eventPrice: this.newEvent.eventPrice,
+        ticketsToRelease: this.newEvent.ticketsToRelease,
+        releasedTickets: 0,
+        soldTickets: 0,
+        createdVendor: {
+          userId: this.newEvent.selectedVendorId // Use the selected vendor ID
+        }
+      };
+
+      this.http.post('http://localhost:8080/events/add', eventPayload).subscribe({
+        next: (response) => {
+          console.log('Event added successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error adding event:', error);
+        }
+      });
+
+      // Reset form and close it
+      this.newEvent = {
+        eventName: '',
+        eventPrice: null,
+        ticketsToRelease: null,
+        releasedTickets: 0,
+        soldTickets: 0,
+        createdVendor: { userId: 0 },
+        isActive: false,
+        selectedVendorId: null,
+      };
+      this.showAddEventForm = false;
+    }
   }
 }
