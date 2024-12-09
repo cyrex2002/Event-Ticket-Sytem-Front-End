@@ -86,9 +86,7 @@ export class CustomerCardComponent implements OnInit{
 
   showAddCustomerForm = false;
   newCustomer = {
-    userId: '',
-    numberOfTickets: null,
-    selectedEventId: null,
+    numberOfTickets: null
   };
 
   toggleAddCustomerForm() {
@@ -100,12 +98,21 @@ export class CustomerCardComponent implements OnInit{
   }
 
   addCustomer() {
-    if (this.newCustomer.userId && this.newCustomer.numberOfTickets && this.newCustomer.selectedEventId) {
+    if (this.newCustomer.numberOfTickets) {
       // Add customer logic (API call or adding directly)
-      this.customers.push({ ...this.newCustomer });
+      this.http.post('http://localhost:8080/customers/add',this.newCustomer).subscribe(
+        {
+          next: (response) => {
+            console.log('Customer added successfully:', response);
+          },
+          error: (error) => {
+            console.error('Error adding customer:', error);
+          }
+        }
+      )
 
       // Reset form and close the modal
-      this.newCustomer = { userId: '', numberOfTickets: null, selectedEventId: null };
+      this.newCustomer = { numberOfTickets: null};
       this.showAddCustomerForm = false;
     }
   }

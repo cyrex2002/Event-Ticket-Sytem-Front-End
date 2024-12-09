@@ -13,7 +13,7 @@
   <table class="min-w-full bg-white border border-gray-300">
     <thead>
     <tr class="bg-gray-200 text-left">
-      <th class="py-3 px-4 border-b border-gray-300">Vendor ID</th>
+      <th class="py-3 px-4 border-b border-gray-300">User ID</th>
       <th class="py-3 px-4 border-b border-gray-300">Tickets to Buy</th>
       <th class="py-3 px-4 border-b border-gray-300">Select Event</th>
       <th class="py-3 px-4 border-b border-gray-300 text-center">Actions</th>
@@ -55,15 +55,6 @@
     <h2 class="text-xl font-bold mb-4">Add New Customer</h2>
     <form (ngSubmit)="addCustomer()">
       <div class="mb-4">
-        <label class="block text-gray-700 mb-2">Vendor ID:</label>
-        <input
-          [(ngModel)]="newCustomer.userId"
-          name="userId"
-          class="w-full p-2 border border-gray-300 rounded"
-          required
-        />
-      </div>
-      <div class="mb-4">
         <label class="block text-gray-700 mb-2">Tickets to Buy:</label>
         <input
           [(ngModel)]="newCustomer.numberOfTickets"
@@ -72,19 +63,6 @@
           class="w-full p-2 border border-gray-300 rounded"
           required
         />
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 mb-2">Select Event:</label>
-        <select
-          [(ngModel)]="newCustomer.selectedEventId"
-          name="selectedEventId"
-          class="w-full p-2 border border-gray-300 rounded"
-          required
-        >
-          <option *ngFor="let event of events" [value]="event.eventId">
-            {{ event.eventName }}
-          </option>
-        </select>
       </div>
       <div class="flex justify-end">
         <button

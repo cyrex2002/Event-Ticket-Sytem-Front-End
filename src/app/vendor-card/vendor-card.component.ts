@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient,HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-vendor-card',
-  imports: [HttpClientModule,CommonModule],
+  imports: [HttpClientModule, CommonModule, FormsModule],
   templateUrl: './vendor-card.component.html',
   styleUrl: './vendor-card.component.css'
 })
@@ -12,6 +13,11 @@ export class VendorCardComponent implements OnInit{
  constructor(private http: HttpClient) {}
 
  vendors: any[] = [];
+  showAddVendorForm: boolean = false;
+  newVendor: { ticketsPerRelease: number; releaseInterval: string } = {
+    ticketsPerRelease: 0,
+    releaseInterval: '',
+  };
 
  ngOnInit() {
    this.fetchVendors();
@@ -27,4 +33,24 @@ export class VendorCardComponent implements OnInit{
      }
    });
  }
+  toggleAddVendorForm() {
+    this.showAddVendorForm = !this.showAddVendorForm;
+  }
+
+  addVendor() {
+    // Example POST request to add a new vendor
+    this.http.post('http://localhost:8080/api/vendors/add-vendor', this.newVendor).subscribe({
+      next: () => {
+        this.fetchVendors(); // Refresh vendor list
+        this.showAddVendorForm = false; // Close modal
+      },
+      error: (error) => {
+        console.error('Error adding vendor:', error);
+      },
+    });
+  }
+
+  cancelAddVendorForm() {
+    this.showAddVendorForm = false;
+  }
 }
