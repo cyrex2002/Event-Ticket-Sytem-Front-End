@@ -16,6 +16,7 @@
       <th class="py-3 px-4 border-b border-gray-300">User ID</th>
       <th class="py-3 px-4 border-b border-gray-300">Tickets to Buy</th>
       <th class="py-3 px-4 border-b border-gray-300">Select Event</th>
+      <th class="py-3 px-4 border-b border-gray-300">Status</th>
       <th class="py-3 px-4 border-b border-gray-300 text-center">Actions</th>
     </tr>
     </thead>
@@ -32,6 +33,9 @@
             {{ event.eventName }}
           </option>
         </select>
+      </td>
+      <td class="py-3 px-4 border-b border-gray-300">
+        {{ customer.isBuying ? 'Active' : 'Inactive' }}
       </td>
       <td class="py-3 px-4 border-b border-gray-300 text-center">
         <button

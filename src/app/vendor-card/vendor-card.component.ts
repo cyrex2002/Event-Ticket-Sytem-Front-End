@@ -41,13 +41,13 @@ export class VendorCardComponent implements OnInit{
     // Example POST request to add a new vendor
     this.http.post('http://localhost:8080/api/vendors/add-vendor', this.newVendor).subscribe({
       next: () => {
-        this.fetchVendors(); // Refresh vendor list
-        this.showAddVendorForm = false; // Close modal
+        this.fetchVendors();
       },
       error: (error) => {
         console.error('Error adding vendor:', error);
       },
     });
+    this.showAddVendorForm = false;
   }
 
   cancelAddVendorForm() {

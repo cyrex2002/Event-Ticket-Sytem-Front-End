@@ -15,6 +15,7 @@ export class SystemConfigCardComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   systemConfig: any = {};
+  totalTickets: number = 0;
 
   public pieChartData: ChartData<'pie'> = {
     labels: ['Total Tickets', 'Free Space'],
@@ -37,6 +38,7 @@ export class SystemConfigCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchSystemConfig();
+    this.fetchTotalTickets();
   }
 
   fetchSystemConfig() {
@@ -51,8 +53,19 @@ export class SystemConfigCardComponent implements OnInit {
     });
   }
 
+  fetchTotalTickets(){
+    this.http.get<number>('http://localhost:8080/TicketPool/ticket-count').subscribe({
+      next:(data) =>{
+        this.totalTickets = data;
+      },
+      error:(err) =>{
+        console.error('Error fetching total number of tickets')
+      }
+    })
+  }
+
   updateChartData() {
-    const totalTickets = this.systemConfig.totalTickets || 0;
+    const totalTickets = this.totalTickets || 0;
     const maxCapacity = this.systemConfig.maxTicketCapacity || 0;
     const freeSpace = maxCapacity - totalTickets;
 

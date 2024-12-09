@@ -98,9 +98,8 @@ export class EventCardComponent implements OnInit {
     releasedTickets: 0,
     soldTickets: 0,
     createdVendor: { userId: 1 }, // Example vendor ID
-    isActive: false,
+    isEventActive: false,
     selectedVendorId: null,
-
   };
 
 
@@ -147,7 +146,7 @@ export class EventCardComponent implements OnInit {
         releasedTickets: 0,
         soldTickets: 0,
         createdVendor: { userId: 0 },
-        isActive: false,
+        isEventActive: false,
         selectedVendorId: null,
       };
       this.showAddEventForm = false;

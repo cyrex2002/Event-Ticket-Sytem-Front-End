@@ -42,15 +42,15 @@
           {{ event.createdVendor.userId }}
         </td>
         <td class="py-3 px-4 border-b border-gray-300">
-          {{ event.isActive ? 'Active' : 'Inactive' }}
+          {{ event.eventActive ? 'Active' : 'Inactive' }}
         </td>
         <td class="py-3 px-4 border-b border-gray-300 text-center">
           <button
             (click)="toggleEvent(event)"
             class="px-3 py-1 text-white font-bold rounded"
-            [ngClass]="event.isActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'"
+            [ngClass]="event.eventActive ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'"
           >
-            {{ event.isActive ? 'Stop' : 'Start' }}
+            {{ event.eventActive ? 'Stop' : 'Start' }}
           </button>
         </td>
       </tr>

@@ -111,7 +111,6 @@ export class CustomerCardComponent implements OnInit{
         }
       )
 
-      // Reset form and close the modal
       this.newCustomer = { numberOfTickets: null};
       this.showAddCustomerForm = false;
     }
