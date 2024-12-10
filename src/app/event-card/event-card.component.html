@@ -29,10 +29,34 @@
         *ngFor="let event of events"
         class="hover:bg-gray-100 transition-colors"
       >
-        <td class="py-3 px-4 border-b border-gray-300">{{ event.eventName }}</td>
-        <td class="py-3 px-4 border-b border-gray-300">${{ event.eventPrice }}</td>
+        <!-- Event Name -->
         <td class="py-3 px-4 border-b border-gray-300">
-          {{ event.ticketsToRelease }}
+          <input
+            [(ngModel)]="event.eventName"
+            class="w-full p-2 border rounded"
+            [readonly]="event.eventActive"
+            (ngModelChange)="onFieldChange(event, 'eventName')"
+          />
+        </td>
+        <!-- Price -->
+        <td class="py-3 px-4 border-b border-gray-300">
+          <input
+            [(ngModel)]="event.eventPrice"
+            type="number"
+            class="w-full p-2 border rounded"
+            [readonly]="event.eventActive"
+            (ngModelChange)="onFieldChange(event, 'eventPrice')"
+          />
+        </td>
+        <!-- Tickets to Release -->
+        <td class="py-3 px-4 border-b border-gray-300">
+          <input
+            [(ngModel)]="event.ticketsToRelease"
+            type="number"
+            class="w-full p-2 border rounded"
+            [readonly]="event.eventActive"
+            (ngModelChange)="onFieldChange(event, 'ticketsToRelease')"
+          />
         </td>
         <td class="py-3 px-4 border-b border-gray-300">
           {{ event.releasedTickets }}

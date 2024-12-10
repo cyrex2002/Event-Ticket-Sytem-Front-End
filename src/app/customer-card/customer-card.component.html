@@ -27,6 +27,7 @@
       <td class="py-3 px-4 border-b border-gray-300">
         <select
           [(ngModel)]="customer.selectedEventId"
+          [disabled]="customer.buying"
           class="w-full p-2 border border-gray-300 rounded"
         >
           <option *ngFor="let event of events" [value]="event.eventId">
@@ -35,14 +36,19 @@
         </select>
       </td>
       <td class="py-3 px-4 border-b border-gray-300">
-        {{ customer.isBuying ? 'Active' : 'Inactive' }}
+        {{ customer.buying ? 'Active' : 'Inactive' }}
       </td>
       <td class="py-3 px-4 border-b border-gray-300 text-center">
         <button
           (click)="startBuying(customer)"
-          class="px-3 py-1 text-white font-bold rounded bg-blue-500 hover:bg-blue-600"
+          [disabled]="customer.buying"
+          class="px-3 py-1 text-white font-bold rounded"
+          [ngClass]="{
+      'bg-blue-500 hover:bg-blue-600': !customer.buying,
+      'bg-gray-400 cursor-not-allowed': customer.buying
+    }"
         >
-          Start Buying
+          {{ customer.buying ? 'Buying...' : 'Start Buying' }}
         </button>
       </td>
     </tr>
@@ -50,7 +56,7 @@
   </table>
 </div>
 
-<!-- Modal for Adding Customer -->
+<!-- Adding Customer -->
 <div
   *ngIf="showAddCustomerForm"
   class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"

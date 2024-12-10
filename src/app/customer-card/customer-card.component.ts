@@ -17,6 +17,7 @@ export class CustomerCardComponent implements OnInit{
   ngOnInit(): void {
     this.fetchCustomers();
     this.fetchEvents();
+    this.loadSelectedEvents();
   }
 
   fetchCustomers (){
@@ -41,10 +42,12 @@ export class CustomerCardComponent implements OnInit{
   }
 
   startBuying(customer: any) {
-    console.log('Selected Event ID:', customer.selectedEventId);
-    console.log('Available Events:', this.events);
-
+    if (customer.buying) {
+      return;
+    }
     if (customer.selectedEventId) {
+      localStorage.setItem(`selectedEventId_${customer.userId}`, customer.selectedEventId);
+
       const selectedEvent = this.events.find(
         (event) => event.eventId === Number(customer.selectedEventId)
       );
@@ -69,9 +72,6 @@ export class CustomerCardComponent implements OnInit{
         userId: customer.userId,
       };
 
-      console.log('Purchase Request:', purchaseRequest);
-
-      // Send the object to the backend
       this.http.post('http://localhost:8080/customers/StartBuying', purchaseRequest).subscribe({
         next: (response) => {
           console.log('Purchase response:', response);
@@ -79,6 +79,7 @@ export class CustomerCardComponent implements OnInit{
         },
         error: (error) => {
           console.error('Error purchasing tickets:', error);
+          customer.buying = false;
         }
       });
     }
@@ -115,5 +116,12 @@ export class CustomerCardComponent implements OnInit{
       this.showAddCustomerForm = false;
     }
   }
-
+  loadSelectedEvents() {
+    this.customers.forEach(customer => {
+      const storedEventId = localStorage.getItem(`selectedEventId_${customer.userId}`);
+      if (storedEventId) {
+        customer.selectedEventId = storedEventId; // Set the selected event ID from localStorage
+      }
+    });
+  }
 }

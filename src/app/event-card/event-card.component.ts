@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -42,11 +42,11 @@ export class EventCardComponent implements OnInit {
   }
 
   toggleEvent(event: any) {
-    event.isActive = !event.isActive; // Toggle the state
+    event.eventActive = !event.eventActive; // Toggle the state
 
     const vendorPayload = this.createVendorPayload(event);
 
-    if (event.isActive) {
+    if (event.eventActive) {
       this.startSelling(vendorPayload);
     } else {
       this.stopSelling(event);
@@ -151,5 +151,23 @@ export class EventCardComponent implements OnInit {
       };
       this.showAddEventForm = false;
     }
+  }
+
+  onFieldChange(event: any, fieldName: any) {
+    if (event.eventActive) {
+      alert("Cannot edit fields. The event is currently active.");
+      return;
+    }
+
+    // Update the field value in the object
+    this.http.post('http://localhost:8080/events/add', event).subscribe({
+      next: () => {
+        console.log(`Event ${fieldName} updated successfully!`);
+      },
+      error: (error) => {
+        console.error("Error updating event:", error);
+        alert("Failed to update the event. Please try again.");
+      },
+    });
   }
 }
